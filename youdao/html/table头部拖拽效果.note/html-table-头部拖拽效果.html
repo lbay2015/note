@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="gbk">
+<title>table</title>
+</head>
+<body>
+<table id="tb_1" cellspacing="0" cellpadding="2" width="100%" border="1">
+<tbody>
+<tr align="center" bgcolor="#dcdcdc">
+<td style="width:100px;">用户编号</td>
+<td>试用时间</td><td>转正时间</td><td>性别</td><td>姓名拼音</td>
+<td>生日时间</td><td>民族</td><td>身高</td>
+</tr>
+<tr>
+<td>2000001</td>
+<td>1997-3-13</td><td>1997-3-13</td><td>1</td><td>WZJ</td>
+<td>1965-3-13</td><td>汉</td><td>171</td>
+</tr>
+<tr>
+<td>2000045</td>
+<td>2001-2-15</td><td>2001-3-15</td><td>0</td><td>WY</td>
+<td>1978-8-5</td><td>汉</td><td>162</td>
+</tr>
+<tr>
+<td>2000046</td>
+<td>2001-2-23</td><td>2001-3-23</td><td>0</td><td>LQ</td>
+<td>2001-2-23</td><td>汉</td><td>171</td>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">
+	
+	
+var HtmlHelper={
+	isIE:function() {
+		 if(navigator.userAgent.indexOf("MSIE") != -1 ||navigator.appName == "Microsoft Internet Explorer") {
+			 return true;
+		 }
+		 else {
+			 return false;
+		 }
+	},
+	isIE6:function() {
+			return (navigator.userAgent.toLowerCase().indexOf("msie 6.0")==-1)?false:true;
+	},
+	isIE7:function() {
+		return (navigator.userAgent.toLowerCase().indexOf("msie 7.0")==-1)?false:true;
+	},
+	isIE8:function () {
+		return (navigator.userAgent.toLowerCase().indexOf("msie 8.0")==-1)?false:true;
+	},
+	isNN:function () {
+		return navigator.userAgent.indexOf("Netscape") != -1;
+	},
+	isOpera:function () {
+		return navigator.appName.indexOf("Opera") != -1;
+	},
+	isFF:function() {
+		return navigator.userAgent.indexOf("Firefox") != -1;
+	},
+	isChrome:function() {
+		return navigator.userAgent.indexOf("Chrome") > -1;
+	},
+	isiOS:function() {
+		return navigator.userAgent.indexOf("iPad") > -1||navigator.userAgent.indexOf("iPhone") > -1;
+	},
+	isMobile:function() {
+		return navigator.userAgent.indexOf("Mobile") > -1;
+	}
+};
+	
+	
+	//（兼容：chrome\火狐）
+	var tableOffset = 30,tableMouserIsMove = false;
+	var tTD = null; // 用来存储当前更改宽度的Table Cell,避免快速移动鼠标的问题
+	var table = document.getElementById("tb_1");
+	for (var j = 0; j < table.rows[0].cells.length; j++) {
+	
+		table.rows[0].cells[j].onmousedown = function(_e) {
+			
+				var eX,eOffsetX,diffX;
+				if(HtmlHelper.isFF()){
+					eOffsetX = _e.layerX;
+					eX = _e.pageX;
+					diffX = this.offsetWidth+this.offsetLeft - dragTableOffset;
+				}else{
+					eOffsetX = window.event.offsetX;
+					eX = window.event.x;
+					diffX = this.offsetWidth - tableOffset;
+				}
+			
+			window.getSelection().removeAllRanges();
+			if (!tableMouserIsMove && tTD == null && eOffsetX > diffX) {
+			 	// 记录单元格
+				tTD = this;
+				table.style.cursor = 'e-resize';
+				tTD.oldX = eX;
+				tTD.oldWidth = tTD.offsetWidth;
+			}
+			
+			if(tableMouserIsMove){
+				tableMouserIsMove=false;
+			}
+			
+		};
+
+		table.rows[0].cells[j].onmousemove = function(_e) {
+
+			var eOffsetX,diffX;
+			if(HtmlHelper.isFF()){
+				eOffsetX = _e.layerX;
+				diffX = this.offsetWidth+this.offsetLeft - tableOffset;
+			}else{
+				eOffsetX = window.event.offsetX;
+				diffX = this.offsetWidth - tableOffset;
+			}
+
+
+			// 更改鼠标样式
+			//console.log(this,eOffsetX,(this.offsetWidth+this.offsetLeft),this.parentNode.offsetLeft);
+			//console.log(this.offsetWidth)
+			if(table.style.cursor == 'e-resize'){
+				this.style.cursor = 'e-resize';
+				tableMouserIsMove=true;
+			}else if (eOffsetX > diffX ){
+				this.style.cursor = 'e-resize';
+			}else{
+				this.style.cursor = 'default';
+			}
+				
+		};
+		
+		table.rows[0].cells[j].onmouseout = function() {
+				tableMouserIsMove=false;
+		};
+	}
+	
+		document.onmouseup = function() {	
+			if(tTD){
+				tTD = null;
+				table.style.cursor = 'default';
+			}
+
+		};
+
+		document.onmousemove = function(_e) {
+			 if(!tTD){
+				return;
+				}
+
+			// 调整宽度
+			if (tTD != null) {
+				
+				var eX;
+				if(HtmlHelper.isFF()){
+					eX = _e.pageX;
+				}else{
+					eX = window.event.x;
+				}
+						
+				
+				window.getSelection().removeAllRanges();
+				if (tTD.oldWidth + (eX - tTD.oldX) > 0){    
+					tTD.width = tTD.oldWidth + (eX - tTD.oldX);
+				}
+				
+				//console.log(tTD.oldWidth,eX,tTD.oldX,tTD.width);
+				// 调整列宽
+				tTD.style.width = tTD.width;
+
+				// 调整该列中的每个Cell
+				table = tTD;
+				while (table.tagName != 'TABLE'){
+					table = table.parentElement;
+				}
+
+				for (j = 0; j < table.rows.length; j++) {
+					table.rows[j].cells[tTD.cellIndex].width = tTD.width;
+				}
+			}
+		};
+</script>
+</body>
+</html>

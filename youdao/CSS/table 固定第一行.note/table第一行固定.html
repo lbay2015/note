@@ -1,0 +1,110 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Table</title>
+    <style type="text/css">
+		/*这个和div固定带下拉是2个实现*/
+		/**头部固定\内容带下拉拖拽按钮**/
+		
+        .scrollTbody{
+            display: block;  
+            overflow-y: auto;
+            height: 200px;  //必须要设置高度,可用js自动适应页面宽度进行设置
+        }
+		
+	 
+	 
+		/**头部宽度一致，去除下拉滚动条的宽度**/
+		table thead {
+            display:table;
+            width: calc( 100% - 1.1em );
+        }
+		table{
+			width:700px;
+        }
+        table td{
+			width:350px;
+        }
+		
+		
+		/***样式不会被撑变形**/
+		table{
+        }
+        table td{
+			word-break: break-all;
+			word-wrap: break-word;
+        }
+		
+		
+		/*以下只做参考：  想要宽度一致，需要对td每一列做宽度设置，统一  或者用百分比，然而其中一个用很大的宽度撑满end*/
+		/**如*/
+		
+		/*因为设置了display:block，因此对每一列做指定宽度，display:table设置后宽度会有问题，切记不能使用display:table*/
+		.tdWidth1{width: 10%;}
+		/*.tdWidth2{width: 80%;}*/
+		/*
+		* 因为tbody为了滚动条，开启了display:block ，
+		* 所以：数据不够宽时tr宽度不够，显示不饱满
+		* 因此：此列不使用百分比，而是使用超出实际的夸张的宽度。
+		* 最终：达到然撑满tr的效果
+		*/
+		.tdWidth2{width: 3000px;}
+		.tdWidth3{width: 10%;}
+
+		
+
+    </style>
+</head>
+<body >
+    <table border=1>
+        <thead class="fixedThead">
+            <tr>
+				<td>header11111111111111111111111111111111111111111=</td>
+				<td>header two</td>
+			</tr>
+        </thead>
+        <tbody class="scrollTbody">
+            <tr><td>-----第一行</td><td>---</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1内容太长格式会变对不齐-内容太长格式会变对不齐-内容太长格式会变对不齐-内容太长格式会变对不齐--01-结尾</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 22222222222222222jasfkanwkerhnaksdhfkhas内容太长格式会变对不齐-内容太长格式会变对不齐--结尾</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+            <tr><td>测试数据 1</td><td>测试数据 2</td></tr>
+        </tbody>
+    </table>
+</body>
+</html>

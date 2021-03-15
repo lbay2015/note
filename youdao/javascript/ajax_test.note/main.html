@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Rainbow test</title>
+    <style type="text/css">
+        body{font-size: 14px;padding: 5px;}
+        div{width: 100%;word-wrap: break-word;word-break: break-all;}
+        input{width: 300px;}
+        textarea{width: 500px;height: 200px;vertical-align: top;}
+        span{color: white;background-color: #2b542c;border-radius: 5px;padding: 3px;}
+    </style>
+
+</head>
+
+<script type="text/javascript"  src="jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+    function login(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var input = {
+            "username":username,
+            "password":password,
+        }
+
+        config.restUri="bowAuthResource/auth";
+        config.input=JSON.stringify(input);
+        postAjax(config);
+
+    }
+
+
+    function test(){
+        var inputMethod = $("#inputMethod").val();
+        var input = $("#input").val();
+        config.restUri=inputMethod;
+        config.input=input;
+        postAjax(config);
+
+    }
+
+    var config = {
+        "restUri":"",
+        "input":""
+    }
+
+    function postAjax(_config){
+        $.ajax({
+            url:"../services/"+_config.restUri,
+            type:"POST",
+            async:true,
+            cache:false,
+            data:_config.input,
+            dataType:"json",
+            contentType:"application/json;charset=utf-8",
+            success:function(resp){
+                var result = _config.input +"<br/>"+ JSON.stringify(resp);
+                $("#result").html(result);
+            },
+            error:function(resp){
+                var result = _config.input +"<br/>"+ JSON.stringify(resp);
+                $("#result").html(result);
+            }
+        });
+    }
+</script>
+<body>
+<h3>result:</h3><div id="result"></div>
+<p/>
+<hr/>
+<input type="text" id="inputMethod" placeholder="input request method" value="indexAggResource/termsStats"/>
+<p/>
+<textarea id="input" placeholder="input request data">
+{
+    "token":"token",
+    "indexName":"filebeat",
+    "type":"log",
+    "startTime":"2016-01-01 01:01:01",
+    "endTime":"2017-01-01 01:01:01",
+    "query":"AVG(age) GROUP(uuid)",
+    "order":false
+}
+</textarea>
+<p/>
+<span onclick="javascript:test()">test(clieck me)</span>
+
+<hr/>
+<input type="text"  id="username"  placeholder="username" value="luffy">
+<p/>
+<input type="text"  id="password" placeholder="password">
+<p/>
+<span onclick="javascript:login()">login.get token(clieck me)</span>
+<p/>
+</body>

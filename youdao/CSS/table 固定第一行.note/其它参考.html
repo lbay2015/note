@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test table tbody is alignment with thead</title>
+    <style type="text/css">
+	/**  来自：https://www.cnblogs.com/fanbi/p/8082025.html
+	**/
+        .per20{
+            width:20%;
+        }
+        .per10{
+            width:10%;
+        }  
+        .per40{
+            width:40%;
+        }
+                 
+        table tbody {
+             display: block;
+             height:150px;
+             overflow:auto;
+        }
+         
+        table thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+            text-align: left;//If disabled, default align central
+        }
+         
+        table thead {
+            width: calc( 100% - 1em )
+        }
+    </style>
+    <script>
+        window.onload=function(){
+            var contentSum = "";
+            for(i = 0; i < 16; i++){
+                var content = '<tr>'
+                            + '<td class="per10">'+i+'</td>'
+                            + '<td class="per10">BBB</td>'
+                            + '<td class="per20">CCCcontent</td>'
+                            + '<td class="per10">DDD</td>'
+                            + '<td class="per40">EEEBigbig</td>'
+                            + '<td class="per10">FFFXXX</td>'
+                            +'</tr>';
+                contentSum += content;
+            }
+            //$('#content').html(contentSum);
+            document.getElementById('content').innerHTML=contentSum;
+    }
+    </script>
+     
+</head>
+<body>
+ 
+    <table border="1px solid" width="900px">
+        <thead>
+            <tr>
+                <th class="per10">A</th>
+                <th class="per10">BBB</th>
+                <th class="per20">CCCCCCCCCC</th>
+                <th class="per10">D</th>
+                <th class="per40">EEEEEEEEEEEEEE</th>
+                <th class="per10">FFF</th>
+            </tr>
+        </thead>
+        <tbody id="content">
+        <!--     <tr>
+                <td class="per10">1</td>
+                <td class="per10">BBB</td>
+                <td class="per20">CCCcontent</td>
+                <td class="per10">DDD</td>
+                <td class="per40">EEEBigbig</td>
+                <td class="per10">FFFXXX</td>
+            </tr> -->         
+        </tbody>
+    </table>
+ 
+    </body>
+</html>

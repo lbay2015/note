@@ -1,0 +1,56 @@
+<html>
+
+<style>
+	
+.whereEdit{
+	user-select: none;
+    border-radius: 4px;
+    padding: 0 5 1 5;
+    margin:0 2 0 2;
+}
+.whereEdit-success{
+		border:solid 1px #008000;
+    color: break;
+}
+
+</style>
+
+<body>
+    <button type="button" onclick="insertHtmlAtCaret('INSERTED');">插入字符-按光标位置添加</button>
+    <div type="button" onclick="insertHtmlAtCaret('INSERTED-DIV');">插入字符-只会在最前</div>
+    <div contentEditable="true" style="height:50px; border:2px solid red;" id="test"> </div>
+</body>
+
+<script>
+
+function insertHtmlAtCaret(value) {
+
+		var html = '&nbsp;<span class=\'whereEdit whereEdit-success\' contentEditable=\'false\'>'+value+'</span>&nbsp;'
+		document.getElementById('test').focus();
+  	sel = window.getSelection();
+            if (sel.getRangeAt && sel.rangeCount) {
+                range = sel.getRangeAt(0);
+                range.deleteContents();
+
+                var el = document.createElement("div");
+                el.innerHTML = html;
+                var frag = document.createDocumentFragment(), node, lastNode;
+                while ( (node = el.firstChild) ) {
+                    lastNode = frag.appendChild(node);
+                }
+                range.insertNode(frag);
+                
+                // Preserve the selection
+                if (lastNode) {
+                    range = range.cloneRange();
+                    range.setStartAfter(lastNode);
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+}
+
+</script>
+
+<html>
